@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zotero Workflow Card"
+  short_description: "Create workflow cards from Zotero papers"
+  default_prompt: "Use Zotero Workflow Card to generate a Workflow Card and update the workflow matrix for this paper."
