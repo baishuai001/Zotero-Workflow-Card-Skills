@@ -85,7 +85,13 @@ If only metadata or an abstract is available, do not generate a full Workflow Ca
 
 Use `design_sample_role` to record why a paper matters to the workflow-design corpus, such as `canonical-example`, `contrast-case`, `counterexample`, `gap-filler`, `method-reference`, or `validation-reference`.
 
-After each batch, use a stop / continue decision that combines a practical threshold with design saturation.
+After each batch, use a stop / continue decision that combines the practical threshold and design saturation in one phase gate:
+
+| Gate | Practical threshold | Saturation requirement | Decision |
+|---|---|---|---|
+| Pilot gate | 10-20 screened candidates and 3-5 Workflow Cards | Draft the coverage map and identify obvious missing workflow types, modalities, and public-data patterns. | Continue broad search or targeted gap filling. |
+| First-phase gate | about 50 screened candidates and 10-15 Workflow Cards | Major workflow types have representative papers, and priority types have canonical-example and contrast-case candidates. | Continue only for specific gaps. |
+| Formal-report gate | about 20 high-quality Workflow Cards | The corpus must satisfy the saturation checklist. | Stop screening for this phase and generate the formal report. |
 
 Design saturation is a checklist, not a feeling:
 
@@ -98,9 +104,13 @@ Design saturation is a checklist, not a feeling:
 
 ## User-Supplied Papers
 
-User-collected papers can enter the same workflow. Provide a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. An official journal URL is useful, but not required when DOI/PMID, Zotero metadata, a local PDF, or enough citation details are available.
+User-collected papers can enter the same workflow. The user only needs to provide one clue. Do not ask the user to pre-organize metadata.
 
-Metadata-only papers become `manual-seed` rows in `screening_decisions.csv`. Papers with full text or methods can be analyzed into Workflow Cards and closed into the Workflow Matrix.
+Accepted clues include a title, DOI, PMID, URL, Zotero collection name, Zotero item key, local PDF path, or pasted text. The legacy compact form is: DOI, PMID, URL, Zotero item key, PDF path, or pasted full text.
+
+Use progressive enrichment: the agent must enrich the record from Zotero metadata, DOI/PMID, URL metadata, indexed full text, local PDFs, pasted text, or other available bibliographic evidence.
+
+metadata-only does not mean stop. Metadata-only papers become `manual-seed` rows in `screening_decisions.csv`; they are tracked as candidates, not a Workflow Card. Papers with full text or methods can be analyzed into Workflow Cards and closed into the Workflow Matrix.
 
 ## 中文说明
 
@@ -189,7 +199,13 @@ python scripts/validate_project.py --project-root ./workflow_cards
 
 使用 `design_sample_role` 记录一篇论文为什么值得进入 workflow 设计语料库，例如 `canonical-example`、`contrast-case`、`counterexample`、`gap-filler`、`method-reference` 或 `validation-reference`。
 
-每一批筛选结束后，都要做 stop / continue 判断：既看 practical threshold，也看 design saturation。
+每一批筛选结束后，都要做 stop / continue 判断：把 practical threshold 和 design saturation 合并到一张 gate 表里判断。
+
+| Gate | 实际数量门槛 | 设计饱和要求 | 动作 |
+|---|---|---|---|
+| Pilot gate | 10-20 篇候选，3-5 篇 Workflow Card | 先画出覆盖图，发现明显缺口，不要求完全饱和。 | 继续广泛检索或定向补缺口 |
+| First-phase gate | 约 50 篇候选，10-15 篇 Workflow Card | 主要 workflow 类型有代表文献，重点类型有 canonical-example 和 contrast-case 候选。 | 停止泛泛扩展，改为定向补缺口 |
+| Formal-report gate | 约 20 篇高质量 Workflow Card | 必须满足下面的 saturation checklist。 | 停止本阶段筛选，生成正式报告 |
 
 design saturation 不是“感觉饱和”，而是 checklist：
 
@@ -202,6 +218,8 @@ design saturation 不是“感觉饱和”，而是 checklist：
 
 ## 用户自己收集的文献
 
-你自己收集的文献可以进入同一套流程。可以提供 DOI、PMID、URL、Zotero item key、本地 PDF 路径，或者直接粘贴全文/方法部分。官网链接有帮助，但不是必需；只要有 DOI/PMID、Zotero 元数据、本地 PDF，或足够的引用信息，就可以进入筛选。
+你自己收集的文献可以进入同一套流程。你只需要给一个线索，例如标题、链接、DOI、PMID、Zotero collection、Zotero item key、本地 PDF 路径，或者直接粘贴摘要/全文/方法部分。官网链接有帮助，但不是必需。
 
-如果只有 metadata 或 abstract，就作为 `manual-seed` 记录写入 `screening_decisions.csv`。如果有全文或方法部分，就可以生成 Workflow Card，并进一步闭环更新 Workflow Matrix。
+你不需要自己整理一堆元数据。skill 应该尽量从这个线索补全 DOI、PMID、Zotero 元数据、URL 信息、PDF 或全文。补不全的字段标记为 `unable to determine`，并写清楚下一步要做什么。
+
+只有 metadata 或 abstract 不是停止，而是先作为 `manual-seed` 记录写入 `screening_decisions.csv`；这只是候选记录，不是 Workflow Card。等有全文或 methods，才生成 Workflow Card，并进一步闭环更新 Workflow Matrix。
