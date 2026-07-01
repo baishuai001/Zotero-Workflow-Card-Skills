@@ -82,10 +82,19 @@ Default decision rule:
 
 - If only title/abstract/metadata are available, update `screening_decisions.csv`.
 - If selected but not in Zotero, mark `zotero_status` as `import-needed`; do not import unless the user explicitly asks.
-- If full text/methods are sufficient and the paper is useful for workflow design, set `inclusion_decision=include`, `screening_status=included`, and `action_next=make-workflow-card`.
+- If title/abstract screening passes but full text is still needed, set `inclusion_decision=include`, `screening_status=included-for-full-text`, and `action_next=retrieve-full-text`.
+- If full text/methods are sufficient and the paper is useful for workflow design, set `inclusion_decision=include`, `screening_status=ready-for-workflow-card`, and `action_next=make-workflow-card`.
 - If a Workflow Card is generated, update both `workflow_matrix.csv` and the matching screening row.
 
 The purpose of screening is to build a representative corpus of workflow-design examples. Avoid over-narrowing the first search by a single cell type unless the user asks for that subproject.
+
+Canonical `screening_status` values:
+
+```text
+candidate, title-abstract-screened, included-for-full-text, excluded,
+needs-full-text, ready-for-workflow-card, partial-card, full-card,
+duplicate, hold
+```
 
 ## Single-Paper Workflow
 
