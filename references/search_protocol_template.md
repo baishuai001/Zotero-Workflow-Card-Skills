@@ -47,6 +47,16 @@ Which single-cell, pan-cancer, tumor immunology, spatial, multi-omics, or public
 | Public-data strategy |  |  |  |
 | Validation strategy |  |  |  |
 
+## Stop / Continue Criteria
+
+Use this stop / continue rule after each screening batch: stop the current phase only when both the practical threshold and design saturation are met.
+
+| Criterion | Project target | Current judgment | Action |
+|---|---|---|---|
+| practical threshold | Pilot: 10-20 screened candidates and 3-5 Workflow Cards; first phase: about 50 screened candidates and 10-15 Workflow Cards |  |  |
+| design saturation | New papers no longer add new workflow types, data-selection patterns, validation layers, or reusable design principles |  |  |
+| gap-filling need | Any missing canonical-example, contrast-case, or counterexample |  |  |
+
 ## Decisions
 
 - Search adjustments:
