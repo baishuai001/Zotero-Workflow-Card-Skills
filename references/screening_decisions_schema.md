@@ -42,9 +42,9 @@ Required columns:
 | exclusion_reason | Controlled short reason when excluded |
 | duplicate_of | `paper_id`, DOI, or Zotero item key of the retained record |
 | decision_reason | One-sentence reason for the current decision |
-| screening_status | candidate, included, excluded, needs-full-text, partial-card, full-card, duplicate, hold |
+| screening_status | candidate, title-abstract-screened, included-for-full-text, excluded, needs-full-text, ready-for-workflow-card, partial-card, full-card, duplicate, hold |
 | priority | high, medium, low |
-| needs_full_text | yes, no, unknown, or unable to determine |
+| needs_full_text | yes, no, or unable to determine |
 | action_next | title-abstract-screen, import-to-zotero, fetch-full-text, retrieve-full-text, review-methods, make-workflow-card, update-matrix, update-card, exclude, deduplicate, hold |
 | reviewer | Person or agent making the decision |
 | workflow_card_status | not-started, partial-card, full-card, matrix-updated, not-needed |
