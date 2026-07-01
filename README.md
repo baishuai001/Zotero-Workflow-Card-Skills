@@ -63,8 +63,7 @@ Zotero collection
 -> update screening_decisions.csv
 -> screen title/abstract and full text
 -> generate one Workflow Card per eligible paper
--> save Markdown cards
--> update workflow_matrix.csv
+-> finalize card + matrix + screening backfill
 -> synthesize workflow design principles
 ```
 
@@ -76,6 +75,7 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/finalize_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md --row-json row.json
 python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
@@ -84,6 +84,8 @@ python scripts/validate_project.py --project-root ./workflow_cards
 If only metadata or an abstract is available, do not generate a full Workflow Card. Record the paper in `screening_decisions.csv` and mark it as needing full text.
 
 Use `design_sample_role` to record why a paper matters to the workflow-design corpus, such as `canonical-example`, `contrast-case`, `counterexample`, `gap-filler`, `method-reference`, or `validation-reference`.
+
+After each batch, use a stop / continue decision that combines a practical threshold with design saturation.
 
 ## 中文说明
 
@@ -150,8 +152,7 @@ Zotero collection
 -> 更新 screening_decisions.csv
 -> 进行题名/摘要和全文筛选
 -> 为符合条件的论文生成 Workflow Card
--> 保存 Markdown 文件
--> 更新 workflow_matrix.csv
+-> 闭环更新 Workflow Card + Workflow Matrix + screening_decisions.csv
 -> 汇总 workflow 设计原则
 ```
 
@@ -163,6 +164,7 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/finalize_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md --row-json row.json
 python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
@@ -171,3 +173,5 @@ python scripts/validate_project.py --project-root ./workflow_cards
 如果只有 metadata 或 abstract，不要生成完整 Workflow Card。应该只更新 `screening_decisions.csv`，并标记为需要全文。
 
 使用 `design_sample_role` 记录一篇论文为什么值得进入 workflow 设计语料库，例如 `canonical-example`、`contrast-case`、`counterexample`、`gap-filler`、`method-reference` 或 `validation-reference`。
+
+每一批筛选结束后，都要做 stop / continue 判断：既看 practical threshold，也看 design saturation。
