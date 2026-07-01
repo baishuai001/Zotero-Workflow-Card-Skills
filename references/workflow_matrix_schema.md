@@ -37,6 +37,7 @@ Required columns:
 | limitations | Main limitations or uncertainties |
 | screening_status | candidate, title-abstract-screened, included-for-full-text, excluded, needs-full-text, ready-for-workflow-card, partial-card, full-card, duplicate, hold |
 | priority | high, medium, low |
+| design_sample_role | How this paper functions in the workflow-design corpus: canonical-example, contrast-case, counterexample, gap-filler, method-reference, or validation-reference |
 | card_path | Absolute or project-relative path to Workflow Card |
 
 Screening details live in `screening_decisions.csv`; see `references/screening_decisions_schema.md`.
