@@ -52,6 +52,17 @@ Make a stop / continue decision by combining a practical threshold with design s
 | design saturation | met / not met / uncertain | new or repeated workflow principles, remaining gaps |  |
 | targeted gap filling | needed / not needed | missing canonical-example, contrast-case, counterexample, modality, or validation layer |  |
 
+Design saturation checklist:
+
+| Check | Judgment | Evidence | stop / continue action |
+|---|---|---|---|
+| main workflow types have representative papers |  |  |  |
+| each important workflow type has at least one canonical-example and contrast-case |  |  |  |
+| public-data strategies have enough cases |  |  |  |
+| key data modalities are not badly imbalanced |  |  |  |
+| newly screened papers no longer create new workflow design principles |  |  |  |
+| the corpus can guide the user's own public-data screening and study design |  |  |  |
+
 Decision: stop current phase / continue broad search / run targeted gap-filling search / move to final synthesis
 
 ## Next Batch Plan
