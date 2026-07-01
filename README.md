@@ -87,6 +87,21 @@ Use `design_sample_role` to record why a paper matters to the workflow-design co
 
 After each batch, use a stop / continue decision that combines a practical threshold with design saturation.
 
+Design saturation is a checklist, not a feeling:
+
+- main workflow types have representative papers
+- each important workflow type has at least one canonical-example and contrast-case
+- public-data strategies have enough cases
+- key data modalities are not badly imbalanced
+- new papers no longer create new workflow design principles
+- the corpus can guide the user's own public-data screening and study design
+
+## User-Supplied Papers
+
+User-collected papers can enter the same workflow. Provide a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. An official journal URL is useful, but not required when DOI/PMID, Zotero metadata, a local PDF, or enough citation details are available.
+
+Metadata-only papers become `manual-seed` rows in `screening_decisions.csv`. Papers with full text or methods can be analyzed into Workflow Cards and closed into the Workflow Matrix.
+
 ## 中文说明
 
 Zotero Workflow Card Skills 是一个 Codex skill，用来把 Zotero 中的文献，或者文献筛选过程中发现的论文，转化为结构化的研究设计笔记。
@@ -175,3 +190,18 @@ python scripts/validate_project.py --project-root ./workflow_cards
 使用 `design_sample_role` 记录一篇论文为什么值得进入 workflow 设计语料库，例如 `canonical-example`、`contrast-case`、`counterexample`、`gap-filler`、`method-reference` 或 `validation-reference`。
 
 每一批筛选结束后，都要做 stop / continue 判断：既看 practical threshold，也看 design saturation。
+
+design saturation 不是“感觉饱和”，而是 checklist：
+
+- 主要 workflow 类型都有代表文献
+- 每个重要 workflow 类型至少有 canonical-example 和 contrast-case
+- public-data strategies 有足够案例
+- 关键数据类型不严重偏科
+- 新文献不再产生新的 workflow design principles
+- 已经能指导你自己的公共数据筛选和研究设计
+
+## 用户自己收集的文献
+
+你自己收集的文献可以进入同一套流程。可以提供 DOI、PMID、URL、Zotero item key、本地 PDF 路径，或者直接粘贴全文/方法部分。官网链接有帮助，但不是必需；只要有 DOI/PMID、Zotero 元数据、本地 PDF，或足够的引用信息，就可以进入筛选。
+
+如果只有 metadata 或 abstract，就作为 `manual-seed` 记录写入 `screening_decisions.csv`。如果有全文或方法部分，就可以生成 Workflow Card，并进一步闭环更新 Workflow Matrix。
