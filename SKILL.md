@@ -107,12 +107,15 @@ gap-filler, method-reference, validation-reference
 
 After each 20-50 paper screening batch, update or create a batch synthesis note from `references/batch_synthesis_template.md`.
 
-Use a combined stop / continue decision after each batch:
+Use an integrated phase gate after each batch. Do not treat the practical threshold and design saturation as separate rules.
 
-- **practical threshold**: the pilot or phase has reached its planned count, such as 10-20 screened candidates, 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase.
-- **design saturation**: new papers no longer add new workflow types, data-selection patterns, validation strategies, or reusable design principles.
+| Gate | Practical threshold | Saturation requirement | Decision |
+|---|---|---|---|
+| Pilot gate | 10-20 screened candidates and 3-5 Workflow Cards | Draft the coverage map and identify obvious missing workflow types, modalities, and public-data patterns. Full saturation is not required. | Continue broad search or run targeted gap filling. |
+| First-phase gate | about 50 screened candidates and 10-15 Workflow Cards | Major workflow types should have representative papers, priority types should have canonical-example and contrast-case candidates, and obvious data/modality imbalance should be visible. | Continue only for specific gaps instead of broad searching. |
+| Formal-report gate | about 20 high-quality Workflow Cards | The corpus must satisfy the saturation checklist below. | Stop screening for this phase and generate the formal report. |
 
-Treat design saturation as a checklist, not a feeling:
+The saturation checklist is:
 
 - main workflow types have representative papers
 - each important workflow type has at least one canonical-example and contrast-case
@@ -121,18 +124,22 @@ Treat design saturation as a checklist, not a feeling:
 - newly screened papers no longer create new workflow design principles
 - the corpus can guide the user's own public-data screening and study design
 
-Continue searching when either practical threshold is not met or design saturation is not yet credible. Stop or move to final synthesis only when both are met for the current project phase.
+Stop only when the current phase reaches its practical threshold and its required saturation condition. If counts are met but the saturation checklist is not credible, continue with targeted gap filling.
 
 ## User-Supplied Papers
 
-Treat papers supplied by the user as manual seed records. The user can provide a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. An official journal URL is helpful but not required when DOI, PMID, Zotero metadata, or enough citation information exists.
+Treat papers supplied by the user as manual seed records. The user only needs to provide one clue. Do not ask the user to pre-organize metadata.
+
+Accepted clues include a title, DOI, PMID, URL, Zotero collection name, Zotero item key, local PDF path, or pasted text. The legacy compact form is: DOI, PMID, URL, Zotero item key, PDF path, or pasted full text.
+
+Use progressive enrichment: the agent must enrich the record from the clue by checking Zotero metadata, DOI/PMID, URL metadata, indexed full text, local PDFs, pasted text, or other available bibliographic evidence. If enrichment fails, keep the row with known fields and set the next action instead of asking the user to rebuild the record.
 
 For one user-supplied paper, route it through the same readiness gate:
 
-- Metadata, abstract, or citation only: add or update a `screening_decisions.csv` row with `source_database=manual-seed`, `search_round=manual-seed-001`, `query_id=USER-SEED-001`, and the appropriate next action.
+- metadata-only does not mean stop. It means add or update a `screening_decisions.csv` row with `source_database=manual-seed`, `search_round=manual-seed-001`, `query_id=USER-SEED-001`, and the appropriate next action. It is a candidate record, not a Workflow Card.
 - Full text, methods, indexed Zotero full text, local PDF, or pasted article text: generate a Workflow Card and close it with `finalize_workflow_card.py`.
 
-For many user-supplied papers, accept a Zotero collection name, Zotero item keys, DOI/PMID list, URLs, local PDF paths, BibTeX/RIS, CSV/TSV, Markdown list, or pasted text, then import them as manual-seed candidates before screening.
+For many user-supplied papers, accept any rough list the user has: titles, links, Zotero collection name, Zotero item keys, DOI/PMID list, local PDF paths, BibTeX/RIS, CSV/TSV, Markdown list, or pasted bibliography. Normalize and enrich them as manual-seed candidates before screening.
 
 ## Single-Paper Workflow
 
