@@ -44,13 +44,13 @@
 
 ## Stop / Continue Decision
 
-Make a stop / continue decision by combining a practical threshold with design saturation.
+Make a stop / continue decision by judging the practical count and design saturation in one gate. The practical threshold is the count requirement inside each gate.
 
-| Criterion | Judgment | Evidence | Decision impact |
-|---|---|---|---|
-| practical threshold | met / not met | screened count, included count, Workflow Card count |  |
-| design saturation | met / not met / uncertain | new or repeated workflow principles, remaining gaps |  |
-| targeted gap filling | needed / not needed | missing canonical-example, contrast-case, counterexample, modality, or validation layer |  |
+| Gate | Practical threshold | Saturation requirement | Judgment | Evidence | Decision impact |
+|---|---|---|---|---|---|
+| Pilot gate | 10-20 screened candidates and 3-5 Workflow Cards | Draft the coverage map; identify obvious missing workflow types, modalities, and public-data patterns. | met / not met |  | continue broad search / targeted gap filling |
+| First-phase gate | about 50 screened candidates and 10-15 Workflow Cards | Major workflow types have representative papers; priority types have canonical-example and contrast-case candidates; obvious imbalance is known. | met / not met |  | targeted gap filling / prepare synthesis |
+| Formal-report gate | about 20 high-quality Workflow Cards | The corpus must satisfy the saturation checklist. | met / not met |  | generate the formal report / continue targeted gap filling |
 
 Design saturation checklist:
 
