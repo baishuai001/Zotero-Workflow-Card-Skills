@@ -39,6 +39,7 @@ COLUMNS = [
     "limitations",
     "screening_status",
     "priority",
+    "design_sample_role",
     "card_path",
 ]
 
