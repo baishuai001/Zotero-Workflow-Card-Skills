@@ -46,6 +46,7 @@ COLUMNS = [
     "decision_reason",
     "screening_status",
     "priority",
+    "design_sample_role",
     "needs_full_text",
     "action_next",
     "reviewer",
