@@ -35,7 +35,7 @@ Required columns:
 | public_data_strategy | How public data were selected or used |
 | reusable_design_principle | Main transferable research design lesson |
 | limitations | Main limitations or uncertainties |
-| screening_status | candidate, included, excluded, needs-full-text, partial-card, full-card, duplicate |
+| screening_status | candidate, title-abstract-screened, included-for-full-text, excluded, needs-full-text, ready-for-workflow-card, partial-card, full-card, duplicate, hold |
 | priority | high, medium, low |
 | card_path | Absolute or project-relative path to Workflow Card |
 
