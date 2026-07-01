@@ -1,14 +1,15 @@
 ---
 name: zotero-workflow-card
-description: Use when analyzing papers from Zotero or literature searches into Workflow Cards, saving one Markdown card per paper, updating a workflow_matrix.csv for cross-paper comparison, or building a workflow-design literature map.
+description: Use when screening literature from Zotero or searches for a workflow-design corpus, analyzing papers into Workflow Cards, saving one Markdown card per paper, updating workflow_matrix.csv, or building a cross-paper workflow-design map.
 ---
 
 # Zotero Workflow Card
 
 ## Core Rule
 
-Use exactly these three names:
+Use exactly these four names:
 
+- **Literature Screening Protocol**: the reproducible search, deduplication, screening, and prioritization protocol used before full paper analysis.
 - **Evidence-Chain Analysis Prompt**: the question list used to analyze how one paper organizes evidence to prove a biological story.
 - **Workflow Card**: the complete Markdown note for one paper, generated from the Evidence-Chain Analysis Prompt.
 - **Workflow Matrix**: the CSV table where each row is one paper and selected fields from its Workflow Card are compressed for cross-paper comparison.
@@ -24,7 +25,8 @@ Keep storage responsibilities separate:
 | Zotero | Paper metadata, PDFs, attachments, citation data |
 | Markdown or Obsidian folder | One complete Workflow Card per paper |
 | `workflow_matrix.csv` | One row per paper for cross-paper comparison |
-| `screening_decisions.csv` | Inclusion/exclusion and screening status |
+| `search_protocol.md` | Project copy of the Literature Screening Protocol, search queries, batches, result counts, and coverage gaps |
+| `screening_decisions.csv` | Candidate records, inclusion/exclusion decisions, Zotero linkage, and Workflow Card handoff status |
 
 Do not write the full Workflow Card into Zotero by default. Zotero notes/tags are optional future enhancements, not v0.1 behavior.
 
@@ -53,6 +55,40 @@ Always report the absolute paths written. Tell the user that paths can be change
 
 ## Workflow
 
+1. If the user is screening many papers, use `references/literature_screening_protocol.md` first and record candidates in `screening_decisions.csv`.
+2. Identify the source paper from Zotero, a DOI/PMID/URL, or supplied paper text/PDF.
+3. Confirm whether enough content exists for a full Workflow Card:
+   - Metadata or abstract only: make or update a screening record, not a full Workflow Card.
+   - Full text, methods, or sufficient article content: make a full Workflow Card.
+4. Use `references/evidence_chain_analysis_prompt.md` as the analysis protocol.
+5. Save the complete single-paper result as a Workflow Card using `references/workflow_card_template.md`.
+6. Update the Workflow Matrix using `references/workflow_matrix_schema.md`.
+7. Update `screening_decisions.csv` with `workflow_card_status` and `card_path` when a screened paper becomes a Workflow Card.
+8. Report written paths and any fields marked "unable to determine".
+
+## Literature Screening
+
+Use `references/literature_screening_protocol.md` when the task is to find, screen, prioritize, or compare many papers before full reading.
+
+Screening flow:
+
+```text
+search result -> screening_decisions.csv -> Zotero item/full text -> Workflow Card -> Workflow Matrix
+```
+
+Use `references/screening_decisions_schema.md` for screening fields and allowed meanings; use `references/literature_screening_protocol.md` for the screening process.
+
+Default decision rule:
+
+- If only title/abstract/metadata are available, update `screening_decisions.csv`.
+- If selected but not in Zotero, mark `zotero_status` as `import-needed`; do not import unless the user explicitly asks.
+- If full text/methods are sufficient and the paper is useful for workflow design, set `inclusion_decision=include`, `screening_status=included`, and `action_next=make-workflow-card`.
+- If a Workflow Card is generated, update both `workflow_matrix.csv` and the matching screening row.
+
+The purpose of screening is to build a representative corpus of workflow-design examples. Avoid over-narrowing the first search by a single cell type unless the user asks for that subproject.
+
+## Single-Paper Workflow
+
 1. Identify the source paper from Zotero, a DOI/PMID/URL, or supplied paper text/PDF.
 2. Confirm whether enough content exists for a full Workflow Card:
    - Metadata or abstract only: make a screening record, not a full Workflow Card.
@@ -76,6 +112,7 @@ Use these scripts for deterministic file operations:
 
 ```bash
 python scripts/init_project.py --project-root ./workflow_cards
+python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zotero-json zotero_search.json --query-id Q1 --search-query "single-cell cancer trajectory"
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
@@ -84,9 +121,10 @@ python scripts/update_screening_decisions.py --project-root ./workflow_cards --r
 Script roles:
 
 - `init_project.py`: create the default project folders and empty tracking files.
+- `import_zotero_candidates.py`: import Zotero search JSON into `screening_decisions.csv` as candidate rows.
 - `write_workflow_card.py`: save one complete Workflow Card Markdown file.
 - `update_workflow_matrix.py`: upsert one paper row in `workflow_matrix.csv`.
-- `update_screening_decisions.py`: upsert a candidate, included, excluded, partial-card, or needs-full-text decision in `screening_decisions.csv`.
+- `update_screening_decisions.py`: upsert screening decisions while preserving existing non-empty row fields.
 
 ## Quality Rules
 
