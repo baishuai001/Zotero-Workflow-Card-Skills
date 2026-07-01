@@ -73,8 +73,28 @@ def normalized_text(value: Any) -> str:
     if value is None:
         return ""
     if isinstance(value, list):
-        return "; ".join(str(item) for item in value if item is not None)
+        return "; ".join(normalized_text(item) for item in value if item is not None)
+    if isinstance(value, dict):
+        return format_creator(value)
     return str(value)
+
+
+def format_creator(value: dict[str, Any]) -> str:
+    name = first_value(value.get("name"))
+    if name:
+        return name
+    first = first_value(value.get("firstName"), value.get("givenName"), value.get("first"))
+    last = first_value(value.get("lastName"), value.get("familyName"), value.get("last"))
+    return " ".join(part for part in (first, last) if part).strip() or str(value)
+
+
+def parse_year(*values: Any) -> str:
+    for value in values:
+        text = normalized_text(value)
+        match = re.search(r"\b(19|20)\d{2}\b", text)
+        if match:
+            return match.group(0)
+    return ""
 
 
 def parse_pmid(*values: Any) -> str:
@@ -150,14 +170,14 @@ def item_to_row(item: dict[str, Any], args: argparse.Namespace) -> dict[str, str
         "retrieved_date": args.retrieved_date,
         "paper_id": paper_id,
         "title": title,
-        "year": first_value(data.get("year"), item.get("year"), data.get("date")),
+        "year": parse_year(data.get("year"), item.get("year"), data.get("date")),
         "journal": first_value(data.get("publicationTitle"), data.get("journalAbbreviation"), item.get("journal")),
         "doi": doi,
         "pmid": pmid,
         "url": first_value(data.get("url"), item.get("url")),
         "authors": first_value(item.get("creators"), data.get("creators")),
-        "abstract_available": "unknown",
-        "full_text_available": "unknown",
+        "abstract_available": "yes" if first_value(data.get("abstractNote"), item.get("abstract")) else "unable to determine",
+        "full_text_available": "unable to determine",
         "zotero_target_collection": args.zotero_target_collection,
         "zotero_item_key": key,
         "bibtex_key": first_value(item.get("bibtexKey"), data.get("citationKey"), item.get("bibtex_key")),
@@ -177,7 +197,7 @@ def item_to_row(item: dict[str, Any], args: argparse.Namespace) -> dict[str, str
         "duplicate_of": "",
         "decision_reason": "Imported from Zotero search",
         "screening_status": args.screening_status,
-        "needs_full_text": "unknown",
+        "needs_full_text": "unable to determine",
         "action_next": "title-abstract-screen",
         "priority": args.priority,
         "reviewer": args.reviewer,
