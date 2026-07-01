@@ -10,19 +10,53 @@ from pathlib import Path
 
 
 COLUMNS = [
+    "screening_id",
+    "search_round",
+    "query_id",
+    "source_database",
+    "search_query",
+    "retrieved_date",
     "paper_id",
     "title",
+    "year",
+    "journal",
     "doi",
+    "pmid",
+    "url",
+    "authors",
+    "abstract_available",
+    "full_text_available",
+    "zotero_target_collection",
     "zotero_item_key",
-    "screening_status",
+    "bibtex_key",
+    "zotero_status",
+    "topic_fit",
+    "workflow_relevance",
+    "data_relevance",
+    "public_data_relevance",
+    "method_signal",
+    "study_scope",
+    "cell_type",
+    "cancer_type",
+    "data_type",
+    "workflow_type_hint",
+    "inclusion_decision",
+    "exclusion_reason",
+    "duplicate_of",
     "decision_reason",
+    "screening_status",
+    "priority",
     "needs_full_text",
+    "action_next",
+    "reviewer",
+    "workflow_card_status",
+    "card_path",
     "notes",
 ]
 
 
 def row_key(row: dict[str, str]) -> tuple[str, str]:
-    for key in ("doi", "zotero_item_key", "paper_id", "title"):
+    for key in ("doi", "pmid", "zotero_item_key", "paper_id", "screening_id", "title"):
         value = (row.get(key) or "").strip().lower()
         if value:
             return key, value
@@ -51,7 +85,11 @@ def main() -> int:
             for row in reader:
                 normalized = {column: row.get(column, "") for column in COLUMNS}
                 if (normalized.get(match_key) or "").strip().lower() == match_value:
-                    rows.append(new_row)
+                    merged = dict(normalized)
+                    for column, value in new_row.items():
+                        if value:
+                            merged[column] = value
+                    rows.append(merged)
                     updated = True
                 else:
                     rows.append(normalized)
