@@ -11,6 +11,7 @@
 - Study object:
 - Cancer / disease context:
 - Data types:
+- Design sample role (`design_sample_role`):
 
 ## 1. Core Scientific Question
 
