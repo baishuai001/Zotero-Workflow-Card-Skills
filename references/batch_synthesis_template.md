@@ -42,6 +42,18 @@
 - Which tool choice is justified by the biological question?
 - Which papers should become Workflow Cards first?
 
+## Stop / Continue Decision
+
+Make a stop / continue decision by combining a practical threshold with design saturation.
+
+| Criterion | Judgment | Evidence | Decision impact |
+|---|---|---|---|
+| practical threshold | met / not met | screened count, included count, Workflow Card count |  |
+| design saturation | met / not met / uncertain | new or repeated workflow principles, remaining gaps |  |
+| targeted gap filling | needed / not needed | missing canonical-example, contrast-case, counterexample, modality, or validation layer |  |
+
+Decision: stop current phase / continue broad search / run targeted gap-filling search / move to final synthesis
+
 ## Next Batch Plan
 
 - Query adjustment:
