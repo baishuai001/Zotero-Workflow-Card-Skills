@@ -57,6 +57,17 @@ Use this stop / continue rule after each screening batch: stop the current phase
 | design saturation | New papers no longer add new workflow types, data-selection patterns, validation layers, or reusable design principles |  |  |
 | gap-filling need | Any missing canonical-example, contrast-case, or counterexample |  |  |
 
+Design saturation checklist:
+
+| Check | Current judgment | stop / continue action |
+|---|---|---|
+| main workflow types have representative papers |  |  |
+| each important workflow type has at least one canonical-example and contrast-case |  |  |
+| public-data strategies have enough cases |  |  |
+| key data modalities are not badly imbalanced |  |  |
+| newly screened papers no longer create new workflow design principles |  |  |
+| the corpus can guide the user's own public-data screening and study design |  |  |
+
 ## Decisions
 
 - Search adjustments:
