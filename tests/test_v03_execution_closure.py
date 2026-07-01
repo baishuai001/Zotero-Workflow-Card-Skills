@@ -139,6 +139,37 @@ class FinalizeWorkflowCardTest(unittest.TestCase):
             self.assertIn("manual-seed", text)
             self.assertIn("DOI, PMID, URL, Zotero item key, PDF path, or pasted full text", text)
 
+    def test_user_supplied_papers_require_only_one_clue_and_progressive_enrichment(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        protocol = (SKILL_ROOT / "references" / "literature_screening_protocol.md").read_text(encoding="utf-8")
+        readme = (SKILL_ROOT / "README.md").read_text(encoding="utf-8")
+
+        for text in (skill, protocol, readme):
+            self.assertIn("The user only needs to provide one clue", text)
+            self.assertIn("Do not ask the user to pre-organize metadata", text)
+            self.assertIn("agent must enrich the record", text)
+            self.assertIn("progressive enrichment", text)
+            self.assertIn("metadata-only does not mean stop", text)
+            self.assertIn("not a Workflow Card", text)
+
+    def test_stop_criteria_integrate_practical_counts_with_design_saturation(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        protocol = (SKILL_ROOT / "references" / "literature_screening_protocol.md").read_text(encoding="utf-8")
+        search_template = (SKILL_ROOT / "references" / "search_protocol_template.md").read_text(encoding="utf-8")
+        batch_template = (SKILL_ROOT / "references" / "batch_synthesis_template.md").read_text(encoding="utf-8")
+
+        for text in (skill, protocol, search_template, batch_template):
+            self.assertIn("Pilot gate", text)
+            self.assertIn("10-20 screened candidates", text)
+            self.assertIn("3-5 Workflow Cards", text)
+            self.assertIn("First-phase gate", text)
+            self.assertIn("about 50 screened candidates", text)
+            self.assertIn("10-15 Workflow Cards", text)
+            self.assertIn("Formal-report gate", text)
+            self.assertIn("about 20 high-quality Workflow Cards", text)
+            self.assertIn("must satisfy the saturation checklist", text)
+            self.assertIn("generate the formal report", text)
+
 
 if __name__ == "__main__":
     unittest.main()
