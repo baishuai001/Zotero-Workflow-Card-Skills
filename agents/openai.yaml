@@ -1,4 +1,4 @@
 interface:
   display_name: "Zotero Workflow Card"
-  short_description: "Create workflow cards from Zotero papers"
-  default_prompt: "Use Zotero Workflow Card to generate a Workflow Card and update the workflow matrix for this paper."
+  short_description: "Screen literature and create workflow cards"
+  default_prompt: "Use Zotero Workflow Card to screen these papers, update screening decisions, and generate Workflow Cards for eligible full-text papers."
