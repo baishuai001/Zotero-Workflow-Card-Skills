@@ -43,13 +43,47 @@ MATRIX_COLUMNS = [
 
 
 SCREENING_COLUMNS = [
+    "screening_id",
+    "search_round",
+    "query_id",
+    "source_database",
+    "search_query",
+    "retrieved_date",
     "paper_id",
     "title",
+    "year",
+    "journal",
     "doi",
+    "pmid",
+    "url",
+    "authors",
+    "abstract_available",
+    "full_text_available",
+    "zotero_target_collection",
     "zotero_item_key",
-    "screening_status",
+    "bibtex_key",
+    "zotero_status",
+    "topic_fit",
+    "workflow_relevance",
+    "data_relevance",
+    "public_data_relevance",
+    "method_signal",
+    "study_scope",
+    "cell_type",
+    "cancer_type",
+    "data_type",
+    "workflow_type_hint",
+    "inclusion_decision",
+    "exclusion_reason",
+    "duplicate_of",
     "decision_reason",
+    "screening_status",
+    "priority",
     "needs_full_text",
+    "action_next",
+    "reviewer",
+    "workflow_card_status",
+    "card_path",
     "notes",
 ]
 
@@ -65,6 +99,13 @@ def write_csv_if_missing(path: Path, columns: list[str]) -> None:
 def write_text_if_missing(path: Path, text: str) -> None:
     if not path.exists():
         path.write_text(text, encoding="utf-8")
+
+
+def default_search_protocol() -> str:
+    reference = Path(__file__).resolve().parents[1] / "references" / "literature_screening_protocol.md"
+    if reference.exists():
+        return reference.read_text(encoding="utf-8")
+    return "# Literature Screening Protocol\n\nPurpose: build a workflow-design literature map.\n"
 
 
 def main() -> int:
@@ -102,7 +143,7 @@ def main() -> int:
     write_csv_if_missing(root / "screening_decisions.csv", SCREENING_COLUMNS)
     write_text_if_missing(
         root / "search_protocol.md",
-        "# Search Protocol\n\nPurpose: build a workflow-design literature map.\n",
+        default_search_protocol(),
     )
     write_text_if_missing(
         synthesis / "workflow_design_principles.md",
