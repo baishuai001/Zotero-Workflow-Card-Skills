@@ -123,6 +123,21 @@ class FinalizeWorkflowCardTest(unittest.TestCase):
             self.assertIn("practical threshold", text)
             self.assertIn("design saturation", text)
             self.assertIn("stop / continue", text)
+            self.assertIn("representative papers", text)
+            self.assertIn("canonical-example and contrast-case", text)
+            self.assertIn("public-data strategies", text)
+            self.assertIn("data modalities are not badly imbalanced", text)
+            self.assertIn("new workflow design principles", text)
+            self.assertIn("guide the user's own public-data screening and study design", text)
+
+    def test_user_supplied_papers_have_manual_seed_path(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        protocol = (SKILL_ROOT / "references" / "literature_screening_protocol.md").read_text(encoding="utf-8")
+
+        for text in (skill, protocol):
+            self.assertIn("User-Supplied Papers", text)
+            self.assertIn("manual-seed", text)
+            self.assertIn("DOI, PMID, URL, Zotero item key, PDF path, or pasted full text", text)
 
 
 if __name__ == "__main__":
