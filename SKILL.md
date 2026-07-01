@@ -27,8 +27,9 @@ Keep storage responsibilities separate:
 | `workflow_matrix.csv` | One row per paper for cross-paper comparison |
 | `search_protocol.md` | Project copy of the Literature Screening Protocol, search queries, batches, result counts, and coverage gaps |
 | `screening_decisions.csv` | Candidate records, inclusion/exclusion decisions, Zotero linkage, and Workflow Card handoff status |
+| `synthesis/batch_*.md` | Batch-level lessons, coverage gaps, and next-query decisions |
 
-Do not write the full Workflow Card into Zotero by default. Zotero notes/tags are optional future enhancements, not v0.1 behavior.
+Do not write the full Workflow Card into Zotero by default. Zotero notes/tags are optional future enhancements, not default behavior.
 
 ## Default Project
 
@@ -48,6 +49,7 @@ workflow_cards/
 |-- search_protocol.md
 |-- cards/
 `-- synthesis/
+    |-- batch_001_synthesis.md
     `-- workflow_design_principles.md
 ```
 
@@ -77,6 +79,7 @@ search result -> screening_decisions.csv -> Zotero item/full text -> Workflow Ca
 ```
 
 Use `references/screening_decisions_schema.md` for screening fields and allowed meanings; use `references/literature_screening_protocol.md` for the screening process.
+Use `references/controlled_vocabularies.md` when choosing repeatable values such as `screening_status`, `method_signal`, `workflow_type_hint`, `data_type`, and `design_sample_role`.
 
 Default decision rule:
 
@@ -96,6 +99,15 @@ needs-full-text, ready-for-workflow-card, partial-card, full-card,
 duplicate, hold
 ```
 
+Use `design_sample_role` to record why a paper belongs in the corpus:
+
+```text
+pending, canonical-example, contrast-case, counterexample,
+gap-filler, method-reference, validation-reference
+```
+
+After each 20-50 paper screening batch, update or create a batch synthesis note from `references/batch_synthesis_template.md`.
+
 ## Single-Paper Workflow
 
 1. Identify the source paper from Zotero, a DOI/PMID/URL, or supplied paper text/PDF.
@@ -111,7 +123,7 @@ duplicate, hold
 
 When using Zotero, first use the installed Zotero skill or its helper to check readiness. Prefer read-only operations for search, metadata retrieval, BibTeX export, and indexed full text. Treat importing records or modifying a Zotero library as an explicit write action requiring user intent.
 
-v0.1 does not require Zotero tag or note writes.
+The default flow does not require Zotero tag or note writes.
 
 Never write Zotero tags, notes, or collections as part of the default Workflow Card flow. If a user explicitly asks to manage Zotero records, use the Zotero skill directly and treat that as a separate Zotero write action.
 
@@ -125,6 +137,7 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
 Script roles:
@@ -134,11 +147,13 @@ Script roles:
 - `write_workflow_card.py`: save one complete Workflow Card Markdown file.
 - `update_workflow_matrix.py`: upsert one paper row in `workflow_matrix.csv`.
 - `update_screening_decisions.py`: upsert screening decisions while preserving existing non-empty row fields.
+- `validate_project.py`: validate status values, duplicate identifiers, card paths, and screening-to-matrix handoff consistency.
 
 ## Quality Rules
 
 - Never invent missing methods, datasets, tools, or conclusions.
 - If only abstract/metadata are available, mark fields as `unable to determine`.
 - Separate evidence from inference.
+- Run `validate_project.py` after batch screening or bulk Workflow Card updates.
 - In every final response, name the Workflow Card path and Workflow Matrix path if either was written.
 - Preserve the distinction between Zotero item keys and BibTeX keys when reporting citation data.
