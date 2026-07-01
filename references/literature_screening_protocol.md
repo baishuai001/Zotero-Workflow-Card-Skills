@@ -20,6 +20,7 @@ Reporting references:
 - Required screening fields
 - Batch synthesis
 - Stop / continue criteria
+- User-supplied papers
 
 ## Fixed Objects
 
@@ -120,6 +121,19 @@ Use Zotero as the paper library and candidate source. Keep analysis outputs outs
 5. For each candidate, update `screening_decisions.csv`. Do not create a Workflow Card until enough article content exists.
 
 Do not write Zotero tags, notes, or collections by default. Zotero writes require explicit user intent.
+
+## User-Supplied Papers
+
+Use this path when the user already has papers outside the skill's own searches. Treat them as manual seed records, not as invisible extra context.
+
+Accepted inputs include a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. A journal homepage or official article URL is useful, but it is not required if DOI, PMID, Zotero metadata, a local PDF, or enough citation details are available.
+
+For a single user-supplied paper:
+
+- If only title, citation, DOI, PMID, URL, or abstract is available, create or update a `screening_decisions.csv` row with `source_database=manual-seed`, `search_round=manual-seed-001`, `query_id=USER-SEED-001`, and `screening_status=candidate` or `included-for-full-text`.
+- If methods, full text, indexed Zotero full text, a local PDF, or pasted article text is available, decide whether it is `ready-for-workflow-card`; if yes, generate the Workflow Card and use `finalize_workflow_card.py`.
+
+For a user-supplied batch, accept a Zotero collection name, Zotero item keys, DOI/PMID list, URLs, local PDF paths, BibTeX/RIS file, CSV/TSV, Markdown list, or pasted bibliography. Import them into `screening_decisions.csv` first, then screen them with the same inclusion, exclusion, priority, and design-sample-role rules as searched papers.
 
 ## Screening Levels
 
@@ -248,6 +262,17 @@ Use two linked standards:
 |---|---|
 | practical threshold | The current phase has reached its planned scale, such as 10-20 screened candidates and 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase. |
 | design saturation | New papers no longer add new workflow types, data-selection patterns, public-data strategies, validation layers, or reusable design principles. |
+
+Use the following checklist so design saturation is not treated as a vague feeling:
+
+| Check | Stop/continue meaning |
+|---|---|
+| main workflow types have representative papers | Continue broad or targeted searching if a major workflow type still has no usable example. |
+| each important workflow type has at least one canonical-example and contrast-case | Continue gap filling if a type has only positive examples and no contrast-case, or only weak examples and no canonical-example. |
+| public-data strategies have enough cases to compare selection, metadata, reuse, and validation logic | Continue targeted searching if public-data strategies are too thin to guide future dataset selection. |
+| key data modalities are not badly imbalanced | Continue balancing if the corpus is dominated by one modality while missing scRNA-seq, snRNA-seq, spatial, bulk, multi-omics, or clinical/public-data examples required by the project. |
+| newly screened papers no longer create new workflow design principles | Stop only when new included papers mostly reinforce known principles instead of changing the map. |
+| the corpus can guide the user's own public-data screening and study design | Stop only when the synthesis can be translated into concrete rules for the user's next dataset search and research design. |
 
 Default decision:
 
