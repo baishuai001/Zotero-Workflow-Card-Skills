@@ -212,6 +212,7 @@ Exclude or deprioritize papers when:
 | decision_reason | One-sentence reason for the current decision |
 | screening_status | candidate, title-abstract-screened, included-for-full-text, excluded, needs-full-text, ready-for-workflow-card, partial-card, full-card, duplicate, hold |
 | priority | high, medium, low |
+| design_sample_role | pending, canonical-example, contrast-case, counterexample, gap-filler, method-reference, validation-reference |
 | needs_full_text | yes, no, or unable to determine |
 | action_next | title-abstract-screen, import-to-zotero, fetch-full-text, retrieve-full-text, review-methods, make-workflow-card, update-matrix, update-card, exclude, deduplicate, hold |
 | reviewer | Person or agent making the decision |
@@ -220,6 +221,8 @@ Exclude or deprioritize papers when:
 | notes | Free-text uncertainty or next action |
 
 Use `unable to determine` instead of inventing metadata or methods.
+
+Use `references/controlled_vocabularies.md` when choosing repeatable values for screening status, method signals, workflow hints, data types, and design sample roles.
 
 ## Batch Synthesis
 
