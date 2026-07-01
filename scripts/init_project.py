@@ -38,6 +38,7 @@ MATRIX_COLUMNS = [
     "limitations",
     "screening_status",
     "priority",
+    "design_sample_role",
     "card_path",
 ]
 
@@ -79,6 +80,7 @@ SCREENING_COLUMNS = [
     "decision_reason",
     "screening_status",
     "priority",
+    "design_sample_role",
     "needs_full_text",
     "action_next",
     "reviewer",
@@ -101,11 +103,11 @@ def write_text_if_missing(path: Path, text: str) -> None:
         path.write_text(text, encoding="utf-8")
 
 
-def default_search_protocol() -> str:
-    reference = Path(__file__).resolve().parents[1] / "references" / "literature_screening_protocol.md"
+def read_reference(name: str, fallback: str) -> str:
+    reference = Path(__file__).resolve().parents[1] / "references" / name
     if reference.exists():
         return reference.read_text(encoding="utf-8")
-    return "# Literature Screening Protocol\n\nPurpose: build a workflow-design literature map.\n"
+    return fallback
 
 
 def main() -> int:
@@ -132,6 +134,8 @@ def main() -> int:
                 f'screening_path: "{root / "screening_decisions.csv"}"',
                 f'search_protocol_path: "{root / "search_protocol.md"}"',
                 f'synthesis_folder: "{synthesis}"',
+                f'validation_script: "{Path(__file__).resolve().parent / "validate_project.py"}"',
+                f'controlled_vocabularies: "{Path(__file__).resolve().parents[1] / "references" / "controlled_vocabularies.md"}"',
                 f'zotero_collection: "{args.zotero_collection}"',
                 f'obsidian_vault: "{args.obsidian_vault}"',
                 "",
@@ -143,17 +147,28 @@ def main() -> int:
     write_csv_if_missing(root / "screening_decisions.csv", SCREENING_COLUMNS)
     write_text_if_missing(
         root / "search_protocol.md",
-        default_search_protocol(),
+        read_reference(
+            "search_protocol_template.md",
+            "# Search Protocol\n\nPurpose: build a workflow-design literature map.\n",
+        ),
     )
     write_text_if_missing(
         synthesis / "workflow_design_principles.md",
         "# Workflow Design Principles\n\n",
+    )
+    write_text_if_missing(
+        synthesis / "batch_001_synthesis.md",
+        read_reference(
+            "batch_synthesis_template.md",
+            "# Batch Synthesis: batch-001\n\n",
+        ),
     )
 
     print(f"Project root: {root}")
     print(f"Cards folder: {cards}")
     print(f"Workflow Matrix: {root / 'workflow_matrix.csv'}")
     print(f"Screening decisions: {root / 'screening_decisions.csv'}")
+    print(f"Batch synthesis template: {synthesis / 'batch_001_synthesis.md'}")
     print(f"Config: {config}")
     return 0
 
