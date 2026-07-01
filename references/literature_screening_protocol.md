@@ -126,14 +126,25 @@ Do not write Zotero tags, notes, or collections by default. Zotero writes requir
 
 Use this path when the user already has papers outside the skill's own searches. Treat them as manual seed records, not as invisible extra context.
 
-Accepted inputs include a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. A journal homepage or official article URL is useful, but it is not required if DOI, PMID, Zotero metadata, a local PDF, or enough citation details are available.
+The user only needs to provide one clue. Do not ask the user to pre-organize metadata. The agent must enrich the record from whatever clue is available.
+
+Accepted clues include a title, DOI, PMID, URL, Zotero collection name, Zotero item key, local PDF path, or pasted text. The legacy compact form is: DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. A journal homepage or official article URL is useful, but it is not required if DOI, PMID, Zotero metadata, a local PDF, or enough citation details are available.
+
+Use progressive enrichment:
+
+1. Capture the clue exactly as supplied.
+2. Try to resolve or enrich metadata from Zotero, DOI/PMID, URL metadata, indexed full text, local PDF, pasted text, or other available bibliographic evidence.
+3. Write known fields into `screening_decisions.csv`; use `unable to determine` for unresolved fields.
+4. Set `action_next` to the next real task, such as `retrieve-full-text`, `review-methods`, `import-to-zotero`, or `make-workflow-card`.
+
+metadata-only does not mean stop. It means the paper can be tracked and enriched, but it is not a Workflow Card until enough methods/results evidence exists.
 
 For a single user-supplied paper:
 
 - If only title, citation, DOI, PMID, URL, or abstract is available, create or update a `screening_decisions.csv` row with `source_database=manual-seed`, `search_round=manual-seed-001`, `query_id=USER-SEED-001`, and `screening_status=candidate` or `included-for-full-text`.
 - If methods, full text, indexed Zotero full text, a local PDF, or pasted article text is available, decide whether it is `ready-for-workflow-card`; if yes, generate the Workflow Card and use `finalize_workflow_card.py`.
 
-For a user-supplied batch, accept a Zotero collection name, Zotero item keys, DOI/PMID list, URLs, local PDF paths, BibTeX/RIS file, CSV/TSV, Markdown list, or pasted bibliography. Import them into `screening_decisions.csv` first, then screen them with the same inclusion, exclusion, priority, and design-sample-role rules as searched papers.
+For a user-supplied batch, accept any rough list the user has: titles, links, Zotero collection name, Zotero item keys, DOI/PMID list, local PDF paths, BibTeX/RIS file, CSV/TSV, Markdown list, or pasted bibliography. Import them into `screening_decisions.csv` first, then screen them with the same inclusion, exclusion, priority, and design-sample-role rules as searched papers.
 
 ## Screening Levels
 
@@ -256,14 +267,15 @@ The endpoint is a growing map of research-design principles, not a bigger biblio
 
 Make a stop / continue decision after each screening batch. Do not stop only because the last search was tiring, and do not continue only because more papers exist.
 
-Use two linked standards:
+Use one integrated phase gate. The practical count and saturation criteria must be judged together:
 
-| Standard | Practical rule |
-|---|---|
-| practical threshold | The current phase has reached its planned scale, such as 10-20 screened candidates and 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase. |
-| design saturation | New papers no longer add new workflow types, data-selection patterns, public-data strategies, validation layers, or reusable design principles. |
+| Gate | Practical threshold | Saturation requirement | Decision |
+|---|---|---|---|
+| Pilot gate | 10-20 screened candidates and 3-5 Workflow Cards | Draft the coverage map and identify obvious missing workflow types, modalities, and public-data patterns. Full saturation is not required. | Continue broad search or run targeted gap filling. |
+| First-phase gate | about 50 screened candidates and 10-15 Workflow Cards | Major workflow types should have representative papers, priority types should have canonical-example and contrast-case candidates, and obvious data/modality imbalance should be visible. | Continue only for specific gaps instead of broad searching. |
+| Formal-report gate | about 20 high-quality Workflow Cards | The corpus must satisfy the saturation checklist below. | Stop screening for this phase and generate the formal report. |
 
-Use the following checklist so design saturation is not treated as a vague feeling:
+Use the following checklist so design saturation is not treated as a vague feeling. The Formal-report gate must satisfy the saturation checklist:
 
 | Check | Stop/continue meaning |
 |---|---|
@@ -276,7 +288,8 @@ Use the following checklist so design saturation is not treated as a vague feeli
 
 Default decision:
 
-- Continue when the practical threshold has not been reached.
-- Continue when the practical threshold is reached but design saturation is not credible.
-- Stop the current phase, or move to final synthesis, only when both the practical threshold and design saturation are satisfied.
+- Continue when the current phase's practical threshold has not been reached.
+- Continue with targeted gap filling when counts are reached but the phase's saturation requirement is not credible.
+- Stop the current phase only when the practical threshold and the required saturation condition are both satisfied.
+- Generate the formal report only at the Formal-report gate, after about 20 high-quality Workflow Cards and a satisfied saturation checklist.
 - If one workflow category is still missing a canonical-example or contrast-case, run a targeted gap-filling search instead of broad searching.
