@@ -112,7 +112,27 @@ Use a combined stop / continue decision after each batch:
 - **practical threshold**: the pilot or phase has reached its planned count, such as 10-20 screened candidates, 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase.
 - **design saturation**: new papers no longer add new workflow types, data-selection patterns, validation strategies, or reusable design principles.
 
+Treat design saturation as a checklist, not a feeling:
+
+- main workflow types have representative papers
+- each important workflow type has at least one canonical-example and contrast-case
+- public-data strategies have enough cases to compare selection, metadata, reuse, and validation logic
+- key data modalities are not badly imbalanced
+- newly screened papers no longer create new workflow design principles
+- the corpus can guide the user's own public-data screening and study design
+
 Continue searching when either practical threshold is not met or design saturation is not yet credible. Stop or move to final synthesis only when both are met for the current project phase.
+
+## User-Supplied Papers
+
+Treat papers supplied by the user as manual seed records. The user can provide a DOI, PMID, URL, Zotero item key, PDF path, or pasted full text. An official journal URL is helpful but not required when DOI, PMID, Zotero metadata, or enough citation information exists.
+
+For one user-supplied paper, route it through the same readiness gate:
+
+- Metadata, abstract, or citation only: add or update a `screening_decisions.csv` row with `source_database=manual-seed`, `search_round=manual-seed-001`, `query_id=USER-SEED-001`, and the appropriate next action.
+- Full text, methods, indexed Zotero full text, local PDF, or pasted article text: generate a Workflow Card and close it with `finalize_workflow_card.py`.
+
+For many user-supplied papers, accept a Zotero collection name, Zotero item keys, DOI/PMID list, URLs, local PDF paths, BibTeX/RIS, CSV/TSV, Markdown list, or pasted text, then import them as manual-seed candidates before screening.
 
 ## Single-Paper Workflow
 
