@@ -64,9 +64,8 @@ Always report the absolute paths written. Tell the user that paths can be change
    - Full text, methods, or sufficient article content: make a full Workflow Card.
 4. Use `references/evidence_chain_analysis_prompt.md` as the analysis protocol.
 5. Save the complete single-paper result as a Workflow Card using `references/workflow_card_template.md`.
-6. Update the Workflow Matrix using `references/workflow_matrix_schema.md`.
-7. Update `screening_decisions.csv` with `workflow_card_status` and `card_path` when a screened paper becomes a Workflow Card.
-8. Report written paths and any fields marked "unable to determine".
+6. Prefer `finalize_workflow_card.py` to write the Workflow Card, update the Workflow Matrix, backfill `screening_decisions.csv`, and run validation in one closure step.
+7. Report written paths and any fields marked "unable to determine".
 
 ## Literature Screening
 
@@ -108,6 +107,13 @@ gap-filler, method-reference, validation-reference
 
 After each 20-50 paper screening batch, update or create a batch synthesis note from `references/batch_synthesis_template.md`.
 
+Use a combined stop / continue decision after each batch:
+
+- **practical threshold**: the pilot or phase has reached its planned count, such as 10-20 screened candidates, 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase.
+- **design saturation**: new papers no longer add new workflow types, data-selection patterns, validation strategies, or reusable design principles.
+
+Continue searching when either practical threshold is not met or design saturation is not yet credible. Stop or move to final synthesis only when both are met for the current project phase.
+
 ## Single-Paper Workflow
 
 1. Identify the source paper from Zotero, a DOI/PMID/URL, or supplied paper text/PDF.
@@ -116,7 +122,7 @@ After each 20-50 paper screening batch, update or create a batch synthesis note 
    - Full text, methods, or sufficient article content: make a full Workflow Card.
 3. Use `references/evidence_chain_analysis_prompt.md` as the analysis protocol.
 4. Save the complete single-paper result as a Workflow Card using `references/workflow_card_template.md`.
-5. Update the Workflow Matrix using `references/workflow_matrix_schema.md`.
+5. Use `finalize_workflow_card.py` to update the Workflow Matrix and backfill `screening_decisions.csv`.
 6. Report written paths and any fields marked "unable to determine".
 
 ## Zotero Use
@@ -137,6 +143,7 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/finalize_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md --row-json row.json
 python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
@@ -147,6 +154,7 @@ Script roles:
 - `write_workflow_card.py`: save one complete Workflow Card Markdown file.
 - `update_workflow_matrix.py`: upsert one paper row in `workflow_matrix.csv`.
 - `update_screening_decisions.py`: upsert screening decisions while preserving existing non-empty row fields.
+- `finalize_workflow_card.py`: close the Workflow Card handoff by writing the card, updating the Workflow Matrix, backfilling `screening_decisions.csv`, and running validation.
 - `validate_project.py`: validate status values, duplicate identifiers, card paths, and screening-to-matrix handoff consistency.
 
 ## Quality Rules
