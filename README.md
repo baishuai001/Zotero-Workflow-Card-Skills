@@ -49,6 +49,7 @@ workflow_cards/
 |-- search_protocol.md
 |-- cards/
 `-- synthesis/
+    |-- batch_001_synthesis.md
     `-- workflow_design_principles.md
 ```
 
@@ -75,11 +76,14 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
 ## Important Rule
 
 If only metadata or an abstract is available, do not generate a full Workflow Card. Record the paper in `screening_decisions.csv` and mark it as needing full text.
+
+Use `design_sample_role` to record why a paper matters to the workflow-design corpus, such as `canonical-example`, `contrast-case`, `counterexample`, `gap-filler`, `method-reference`, or `validation-reference`.
 
 ## 中文说明
 
@@ -132,6 +136,7 @@ workflow_cards/
 |-- search_protocol.md
 |-- cards/
 `-- synthesis/
+    |-- batch_001_synthesis.md
     `-- workflow_design_principles.md
 ```
 
@@ -158,8 +163,11 @@ python scripts/import_zotero_candidates.py --project-root ./workflow_cards --zot
 python scripts/write_workflow_card.py --project-root ./workflow_cards --slug paper-slug --content-file card.md
 python scripts/update_workflow_matrix.py --project-root ./workflow_cards --row-json row.json
 python scripts/update_screening_decisions.py --project-root ./workflow_cards --row-json screening-row.json
+python scripts/validate_project.py --project-root ./workflow_cards
 ```
 
 ## 重要规则
 
 如果只有 metadata 或 abstract，不要生成完整 Workflow Card。应该只更新 `screening_decisions.csv`，并标记为需要全文。
+
+使用 `design_sample_role` 记录一篇论文为什么值得进入 workflow 设计语料库，例如 `canonical-example`、`contrast-case`、`counterexample`、`gap-filler`、`method-reference` 或 `validation-reference`。
