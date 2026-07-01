@@ -19,6 +19,7 @@ Reporting references:
 - Inclusion and exclusion criteria
 - Required screening fields
 - Batch synthesis
+- Stop / continue criteria
 
 ## Fixed Objects
 
@@ -236,3 +237,21 @@ After each screening batch, do not only count included papers. Extract what comp
 - Which papers are positive controls, negative controls, or counterexamples for workflow design?
 
 The endpoint is a growing map of research-design principles, not a bigger bibliography.
+
+## Stop / Continue Criteria
+
+Make a stop / continue decision after each screening batch. Do not stop only because the last search was tiring, and do not continue only because more papers exist.
+
+Use two linked standards:
+
+| Standard | Practical rule |
+|---|---|
+| practical threshold | The current phase has reached its planned scale, such as 10-20 screened candidates and 3-5 Workflow Cards for a pilot, or about 50 screened candidates and 10-15 Workflow Cards for a first phase. |
+| design saturation | New papers no longer add new workflow types, data-selection patterns, public-data strategies, validation layers, or reusable design principles. |
+
+Default decision:
+
+- Continue when the practical threshold has not been reached.
+- Continue when the practical threshold is reached but design saturation is not credible.
+- Stop the current phase, or move to final synthesis, only when both the practical threshold and design saturation are satisfied.
+- If one workflow category is still missing a canonical-example or contrast-case, run a targeted gap-filling search instead of broad searching.
